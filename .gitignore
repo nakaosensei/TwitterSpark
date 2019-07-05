@@ -23,7 +23,6 @@ __pycache__/
 *.so
 
 # Distribution / packaging
-.Python
 build/
 develop-eggs/
 dist/
@@ -113,8 +112,6 @@ celerybeat-schedule
 
 # Environments
 .env
-.venv
-.idea
 env/
 venv/
 ENV/
