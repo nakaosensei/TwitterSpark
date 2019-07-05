@@ -1,0 +1,20 @@
+#start single node zookeeper
+sudo /opt/kafka/kafka_2.11-2.1.0/bin/zookeeper-server-start.sh /opt/kafka/kafka_2.11-2.1.0/config/zookeeper.properties
+
+#start kafka server
+sudo /opt/kafka/kafka_2.11-2.1.0/bin/kafka-server-start.sh /opt/kafka/kafka_2.11-2.1.0/config/server.properties
+
+#create a topic called Blue_Sea
+sudo /opt/kafka/kafka_2.11-2.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Blue_Sea
+
+#check topics created
+sudo /opt/kafka/kafka_2.11-2.1.0/bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+#start kafka-manager (ignore this)
+sudo /home/yuzo/Packages/kafka-manager/target/universal/kafka-manager-1.3.3.23/bin/kafka-manager -Dkafka-manager.zkhosts="localhost:2181"
+
+#create a topic called twitterEng
+sudo /opt/kafka/kafka_2.11-2.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic twitterEng
+
+#create a topic called twitterPt
+sudo /opt/kafka/kafka_2.11-2.1.0/bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic twitterPt
