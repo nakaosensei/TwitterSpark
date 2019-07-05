@@ -12,6 +12,8 @@ Extract everything anywhere you want.
 
 ## Initiating Apache Kafka
 
+Let's initiate `Zookeeper manager`, `Kafka broker`, and some `Kafka topics` for our application!
+
 ### Zookeeper Service
 
 ```console
