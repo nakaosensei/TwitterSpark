@@ -1,0 +1,4 @@
+[2019-07-05 18:00:27,352] DEBUG preRegister called. Server=com.sun.jmx.mbeanserver.JmxMBeanServer@68f7aae2, name=log4j:logger=state.change.logger (state.change.logger)
+[2019-07-05 18:01:37,758] DEBUG preRegister called. Server=com.sun.jmx.mbeanserver.JmxMBeanServer@68f7aae2, name=log4j:logger=state.change.logger (state.change.logger)
+[2019-07-05 18:19:30,037] TRACE [Controller id=0 epoch=1] Received response {error_code=0} for request UPDATE_METADATA with correlation id 0 sent to broker nakao-Aspire-E5-573:9092 (id: 0 rack: null) (state.change.logger)
+[2019-07-05 18:38:41,574] TRACE [Controller id=0 epoch=2] Received response {error_code=0} for request UPDATE_METADATA with correlation id 0 sent to broker nakao-Aspire-E5-573:9092 (id: 0 rack: null) (state.change.logger)

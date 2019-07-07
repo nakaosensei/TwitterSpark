@@ -1,0 +1,10 @@
+2019-07-05 16:37:02,122 [myid:] - INFO  [main:QuorumPeerConfig@136] - Reading configuration from: /home/nakao/Projetos/TweetPy2/TwitterSpark/lib/zookeeper-3.4.14/bin/../conf/zoo.cfg
+2019-07-05 16:37:02,125 [myid:] - ERROR [main:QuorumPeerMain@88] - Invalid config, exiting abnormally
+org.apache.zookeeper.server.quorum.QuorumPeerConfig$ConfigException: Error processing /home/nakao/Projetos/TweetPy2/TwitterSpark/lib/zookeeper-3.4.14/bin/../conf/zoo.cfg
+	at org.apache.zookeeper.server.quorum.QuorumPeerConfig.parse(QuorumPeerConfig.java:156)
+	at org.apache.zookeeper.server.quorum.QuorumPeerMain.initializeAndRun(QuorumPeerMain.java:104)
+	at org.apache.zookeeper.server.quorum.QuorumPeerMain.main(QuorumPeerMain.java:81)
+Caused by: java.lang.IllegalArgumentException: /home/nakao/Projetos/TweetPy2/TwitterSpark/lib/zookeeper-3.4.14/bin/../conf/zoo.cfg file is missing
+	at org.apache.zookeeper.server.quorum.QuorumPeerConfig.parse(QuorumPeerConfig.java:140)
+	... 2 more
+Invalid config, exiting abnormally
