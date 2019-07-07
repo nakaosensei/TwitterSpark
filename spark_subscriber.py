@@ -1,6 +1,6 @@
 import os
 import findspark
-findspark.init('/home/yuzo/Packages/spark-2.4.3-bin-hadoop2.7')
+findspark.init('../TwitterSpark/lib/spark-2.4.3-bin-hadoop2.7')
 os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages org.apache.spark:spark-streaming-kafka-0-8_2.11:2.4.3 pyspark-shell'
 # initiate Apache Kafka
 # download link: https://www.apache.org/dyn/closer.lua/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz

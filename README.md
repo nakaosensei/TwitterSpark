@@ -5,7 +5,7 @@
  - [Apache Spark.](https://www.apache.org/dyn/closer.lua/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz)
  - [Apache Kafka.](https://www.apache.org/dyn/closer.cgi?path=/kafka/2.3.0/kafka_2.12-2.3.0.tgz)
 
-Extract everything anywhere you want.
+Extract everything anywhere you want.kaf
 
 ## Environment and System Architecture
 
@@ -17,14 +17,15 @@ Let's initiate `Zookeeper manager`, `Kafka broker`, and create some `Kafka topic
 ### Zookeeper Service
 
 ```console
-me@linux:~$ sudo /PATH/TO/kafka_2.12-2.3.0/bin/kafka-server-start.sh /PATH/TO/kafka_2.12-2.3.0/config/server.properties
+me@linux:~$ sudo /PATH/TO/kafka_2.12-2.3.0/bin/zookeeper-server-start.sh /PATH/TO/kafka_2.12-2.3.0/config/zookeeper.properties
 ```
 
 ### Kafka Service
-
 ```console
-me@linux:~$ sudo /PATH/TO/kafka_2.12-2.3.0/bin/zookeeper-server-start.sh /PATH/TO/kafka_2.12-2.3.0/config/zookeeper.properties
+me@linux:~$ sudo /PATH/TO/kafka_2.12-2.3.0/bin/kafka-server-start.sh /PATH/TO/kafka_2.12-2.3.0/config/server.properties
 ```
+
+
 
 ### Creating Topics
 
