@@ -42,6 +42,8 @@ me@linux:~$ python spark_publisher.py
 
 ## Running the Subscriber
 
+Please modify `Line 3` in file `spark_subscriber.py` with the *path* that you specified for Apache Spark.
+
 ```console
 me@linux:~$ python spark_subscriber.py
 ```
