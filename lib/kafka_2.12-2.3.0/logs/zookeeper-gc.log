@@ -1,18 +1,5 @@
-[2019-07-07T11:40:46.592-0300][gc,heap] Heap region size: 1M
-[2019-07-07T11:40:46.597-0300][gc     ] Using G1
-[2019-07-07T11:40:46.597-0300][gc,heap,coops] Heap address: 0x00000000e0000000, size: 512 MB, Compressed Oops mode: 32-bit
-[2019-07-07T11:40:46.597-0300][gc,cds       ] Mark closed archive regions in map: [0x00000000fff00000, 0x00000000fff69ff8]
-[2019-07-07T11:40:46.598-0300][gc,cds       ] Mark open archive regions in map: [0x00000000ffe00000, 0x00000000ffe34ff8]
-[2019-07-07T12:38:47.582-0300][gc,start     ] GC(0) Pause Young (Normal) (G1 Evacuation Pause)
-[2019-07-07T12:38:47.583-0300][gc,task      ] GC(0) Using 4 workers of 4 for evacuation
-[2019-07-07T12:38:47.602-0300][gc,phases    ] GC(0)   Pre Evacuate Collection Set: 0,0ms
-[2019-07-07T12:38:47.602-0300][gc,phases    ] GC(0)   Evacuate Collection Set: 17,6ms
-[2019-07-07T12:38:47.602-0300][gc,phases    ] GC(0)   Post Evacuate Collection Set: 0,4ms
-[2019-07-07T12:38:47.602-0300][gc,phases    ] GC(0)   Other: 1,3ms
-[2019-07-07T12:38:47.602-0300][gc,heap      ] GC(0) Eden regions: 25->0(21)
-[2019-07-07T12:38:47.602-0300][gc,heap      ] GC(0) Survivor regions: 0->4(4)
-[2019-07-07T12:38:47.602-0300][gc,heap      ] GC(0) Old regions: 2->3
-[2019-07-07T12:38:47.602-0300][gc,heap      ] GC(0) Humongous regions: 0->0
-[2019-07-07T12:38:47.602-0300][gc,metaspace ] GC(0) Metaspace: 7586K->7586K(1056768K)
-[2019-07-07T12:38:47.602-0300][gc           ] GC(0) Pause Young (Normal) (G1 Evacuation Pause) 25M->5M(512M) 19,351ms
-[2019-07-07T12:38:47.602-0300][gc,cpu       ] GC(0) User=0,06s Sys=0,01s Real=0,02s
+[2019-07-08T14:52:29.888-0300][gc,heap] Heap region size: 1M
+[2019-07-08T14:52:29.894-0300][gc     ] Using G1
+[2019-07-08T14:52:29.894-0300][gc,heap,coops] Heap address: 0x00000000e0000000, size: 512 MB, Compressed Oops mode: 32-bit
+[2019-07-08T14:52:29.894-0300][gc,cds       ] Mark closed archive regions in map: [0x00000000fff00000, 0x00000000fff69ff8]
+[2019-07-08T14:52:29.894-0300][gc,cds       ] Mark open archive regions in map: [0x00000000ffe00000, 0x00000000ffe34ff8]

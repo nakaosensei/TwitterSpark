@@ -30,12 +30,61 @@ import tweepy
 
 producer = None
 
+def preProcessData(data):
+    data = data.replace('ç','c')
+    data = data.replace('Ç', 'C')
+    data = data.replace('á', 'a')
+    data = data.replace('À', 'A')
+    data = data.replace('à', 'a')
+    data = data.replace('À', 'A')
+    data = data.replace('ã', 'a')
+    data = data.replace('Ã', 'A')
+    data = data.replace('â', 'a')
+    data = data.replace('Â', 'A')
+
+    data = data.replace('è', 'e')
+    data = data.replace('È', 'E')
+    data = data.replace('é', 'e')
+    data = data.replace('É', 'E')
+    data = data.replace('ẽ', 'e')
+    data = data.replace('Ẽ', 'E')
+    data = data.replace('ê', 'e')
+    data = data.replace('Ê', 'E')
+
+    data = data.replace('ì', 'i')
+    data = data.replace('Ì', 'I')
+    data = data.replace('í', 'i')
+    data = data.replace('Í', 'I')
+    data = data.replace('ĩ', 'i')
+    data = data.replace('Ĩ', 'I')
+    data = data.replace('î', 'i')
+    data = data.replace('Î', 'I')
+
+    data = data.replace('ò', 'o')
+    data = data.replace('Ò', 'O')
+    data = data.replace('ó', 'o')
+    data = data.replace('Ó', 'O')
+    data = data.replace('õ', 'o')
+    data = data.replace('Õ', 'O')
+    data = data.replace('ô', 'o')
+    data = data.replace('Ô', 'O')
+
+    data = data.replace('ù', 'u')
+    data = data.replace('Ù', 'U')
+    data = data.replace('ú', 'u')
+    data = data.replace('Ú', 'U')
+    data = data.replace('ũ', 'u')
+    data = data.replace('Ũ', 'U')
+    data = data.replace('û', 'u')
+    data = data.replace('Û', 'U')
+    return data
+
 class MyStreamListener(tweepy.StreamListener):
     def on_status(self, status):
         print(status.text)
-        data = {'number': status.text}
+        data = {'number': preProcessData(status.text)}
         producer.send('twitterEng', value=data)
-        sleep(5)
+        sleep(20)
 
 
 if __name__ == '__main__':
@@ -47,7 +96,7 @@ if __name__ == '__main__':
     # See https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
 
     # Create Producer instance
-    producer = KafkaProducer(bootstrap_servers=['localhost:9092'],value_serializer=lambda x:dumps(x).encode('utf-8'))
+    producer = KafkaProducer(bootstrap_servers=['localhost:9092'],value_serializer=lambda x:dumps(x).encode('UTF-8'))
     # Optional per-message delivery callback (triggered by poll() or flush())
     # when a message has been successfully delivered or permanently
     # failed delivery (after retries).
@@ -70,7 +119,7 @@ if __name__ == '__main__':
     myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
 
     myStream.filter(track=['@jairbolsonaro'])
-
+   # p.flush()
     '''TCP_IP = "localhost"
     TCP_PORT = 9009
     conn = None
@@ -102,4 +151,4 @@ if __name__ == '__main__':
         #       will most likely not serve the delivery callback for the
         #       last produce()d message.
 
-    p.flush()
+
