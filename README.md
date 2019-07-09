@@ -1,5 +1,13 @@
 # TwitterSpark
 
+## Python dependencies
+[Packages](https://github.com/nakaosensei/TwitterSpark/blob/master/requeriments.txt)
+### Virtual enviroment(optional)
+```console
+$python3 -m venv virtualenv
+$source virtualenv/bin/activate
+$pip3 install -r requeriments.txt
+```
 ## Downloading Everything
 
  - [Apache Spark.](https://www.apache.org/dyn/closer.lua/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz)
