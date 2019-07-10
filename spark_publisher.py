@@ -27,6 +27,7 @@ from time import sleep
 from json import dumps
 from kafka import KafkaProducer
 import tweepy
+from urllib3.exceptions import ProtocolError
 
 producer = None
 
@@ -143,8 +144,12 @@ if __name__ == '__main__':
 
     api = tweepy.API(auth)
     myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
+    while True:
+        try:
+            myStream.filter(track=['@jairbolsonaro', 'Jair Bolsonaro', 'jair bolsonaro', 'JAIR BOLSONARO'],stall_warnings=True)
+        except (ProtocolError, AttributeError):
+            continue
 
-    myStream.filter(track=['@jairbolsonaro'])
    # p.flush()
     '''TCP_IP = "localhost"
     TCP_PORT = 9009
