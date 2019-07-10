@@ -77,15 +77,41 @@ def preProcessData(data):
     data = data.replace('Ũ', 'U')
     data = data.replace('û', 'u')
     data = data.replace('Û', 'U')
-    return data
+    data = data.replace("...","")
+
+    data = data.replace("\n"," ")
+    data = data.replace('"',"")
+    out = ""
+
+    messageSplit = data.split(' ')
+    for m in messageSplit:
+        if m!="RT" and 'http' not in m:
+            out+=m+" "
+    return out
 
 class MyStreamListener(tweepy.StreamListener):
-    def on_status(self, status):
-        print(status.text)
-        data = {'number': preProcessData(status.text)}
-        producer.send('twitterEng', value=data)
-        sleep(20)
 
+    def on_error(self, status_code):
+        if status_code == 420:
+            # returning False in on_data disconnects the stream
+            return False
+
+    def on_status(self, status):
+        try:
+            print(preProcessData(status.text))
+            f = open("logs.txt","a")
+            f.write(preProcessData(status.text)+"\n")
+            f.close()
+            data = {'number': preProcessData(status.text)}
+            producer.send('twitterEng', value=data)
+            sleep(30)
+        except:
+            print("error")
+            f = open("errors.txt", "a")
+            f.write("ERROR\n")
+            f.write(status.text)
+            f.close()
+            sleep(60)
 
 if __name__ == '__main__':
     # if len(sys.argv) != 3:
