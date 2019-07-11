@@ -114,8 +114,8 @@ if __name__ == '__main__':
                              (msg.topic(), msg.partition(), msg.offset()))
 
     myStreamListener = MyStreamListener()
-    auth = tweepy.OAuthHandler('ZfyYT762f8iptmyOAQiPVpSSG', 'abdgza7zIl2lbRaYdY4L7C5zhGgxftLiACt5WJfrFtGnNIQqIF')
-    auth.set_access_token('188507287-370vFKYm0sA6OumKatEWXRZuA4ippzCl7kteJCpi','MIaKNuYorBD5qqsxzzb58gOuvrBuGBToya5nzLEHsJ8kT')
+    auth = tweepy.OAuthHandler(tweepyOauth[0],tweepyOauth[1])
+    auth.set_access_token(tweepyToken[0],tweepyToken[1])
     api = tweepy.API(auth)
     myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
     while True:

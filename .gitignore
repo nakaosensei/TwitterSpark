@@ -229,3 +229,5 @@ fabric.properties
 *.iml
 out
 gen
+
+keys\.py
