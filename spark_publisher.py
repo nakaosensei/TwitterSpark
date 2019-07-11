@@ -5,8 +5,12 @@ from time import sleep
 from json import dumps
 from kafka import KafkaProducer
 import tweepy
+from keys import tweepyOauth
+from keys import tweepyToken
 from urllib3.exceptions import ProtocolError
 producer = None
+
+
 
 def preProcessData(data):
     data = data.replace('ç','c')
