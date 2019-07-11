@@ -4,9 +4,10 @@
 [Packages](https://github.com/nakaosensei/TwitterSpark/blob/master/requeriments.txt)
 ### Virtual enviroment(optional)
 ```console
-$python3 -m venv virtualenv
-$source virtualenv/bin/activate
-$pip3 install -r requeriments.txt
+me@linux:~$ python3 -m venv virtualenv
+me@linux:~$ source virtualenv/bin/activate
+me@linux:~$ pip3 install -r requeriments.txt
+#deactivate to leave env
 ```
 ## Downloading Everything
 
