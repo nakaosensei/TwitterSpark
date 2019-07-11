@@ -30,11 +30,11 @@ from pyspark.ml.clustering import LDA
 import pyLDAvis
 
 
-lang = "english"
 
 
 
-def format_data_to_pyldavis(df_filtered, count_vectorizer, transformed, lda_model):
+
+def format_data_to_pyldavis(df_filtered, count_vectorizer, transformed, lda_model,num_terms):
     xxx = df_filtered.select((explode(df_filtered.words_filtered)).alias("words")).groupby("words").count()
     word_counts = {r['words']:r['count'] for r in xxx.collect()}
     word_counts = [word_counts[w] for w in count_vectorizer.vocabulary]
@@ -44,7 +44,8 @@ def format_data_to_pyldavis(df_filtered, count_vectorizer, transformed, lda_mode
             'doc_topic_dists': np.array([x.toArray() for x in transformed.select(["topicDistribution"]).toPandas()['topicDistribution']]),
             'doc_lengths': [r[0] for r in df_filtered.select(size(df_filtered.words_filtered)).collect()],
             'vocab': count_vectorizer.vocabulary,
-            'term_frequency': word_counts}
+            'term_frequency': word_counts,
+            'R' : num_terms}
 
     return data
 
@@ -67,19 +68,18 @@ def filter_bad_docs(data):
     data['doc_topic_dists'] = doc_topic_dists_filtrado
     data['doc_lengths'] = doc_lengths_filtrado
 
-personal_stops = ["http","www","html","https","id","bolsonaro","none","yahoo","reuters"]
+def update_lda(lang = "english"):    
+    personal_stops = ["http","www","html","https","id","bolsonaro","none","yahoo","reuters","brazil","name","news","thestar"]
 
 
-stopWords = stopwords.words(lang)
+    stopWords = stopwords.words(lang)
+    stopWords.extend(personal_stops)
 
-stopWords.extend(personal_stops)
+    file_location = "files/news/news_{}.csv".format(lang)
 
-file_location = "files/news/news_{}.csv".format(lang)
+    sc = SparkContext(appName="PythonStreamingReceiver")
+    sqlc = SQLContext(sc)
 
-sc = SparkContext(appName="PythonStreamingReceiver")
-sqlc = SQLContext(sc)
-
-def run():
     df = sqlc.read.csv(file_location, header=True)
 
     news = df.rdd.map(lambda x: x['title']).filter(lambda x: x is not None)
@@ -101,7 +101,7 @@ def run():
 
     df_tokens=df_tokens.withColumn("words_filtered",label_udf(df_tokens.noStopWords))
     df_tokens.show()
-    cv = CountVectorizer(inputCol="words_filtered", outputCol="features")
+    cv = CountVectorizer(inputCol="words_filtered", outputCol="features", minDF = 0.01, maxDF = 0.98)
     cvmodel = cv.fit(df_tokens)
 
     result_cv = cvmodel.transform(df_tokens)
@@ -116,10 +116,11 @@ def run():
     ldaModel = lda.fit(result_tfidf)
     transformed = ldaModel.transform(result_tfidf)
     lpt, lp = ldaModel.logPerplexity(df_testing), ldaModel.logPerplexity(df_training)
+    num_topics = int(lpt+1)
 
-
+    num_terms = 8
     # FORMAT DATA AND PASS IT TO PYLDAVIS
-    data = format_data_to_pyldavis(df_tokens, cvmodel, transformed, ldaModel)
+    data = format_data_to_pyldavis(df_tokens, cvmodel, transformed, ldaModel, num_terms)
     filter_bad_docs(data) # this is, because for some reason some docs apears with 0 value in all the vectors, or the norm is not 1, so I filter those docs.
     py_lda_prepared_data = pyLDAvis.prepare(**data)
     pyLDAvis.save_html(py_lda_prepared_data, 'files/viz/lda.html')
@@ -127,15 +128,14 @@ def run():
 
 
     # Print topics and top-weighted terms
-    topics = ldaModel.describeTopics(maxTermsPerTopic=10)
+    topics = ldaModel.describeTopics(maxTermsPerTopic = num_terms)
     vocabArray = cvmodel.vocabulary
-    numTopics=20
+    
 
     ListOfIndexToWords = udf(lambda wl: list([vocabArray[w] for w in wl]))
     FormatNumbers = udf(lambda nl: ["{:1.4f}".format(x) for x in nl])
 
-    topics.select(ListOfIndexToWords(topics.termIndices).alias('words')).show(truncate=False, n=numTopics)
-    topics.select(FormatNumbers(topics.termWeights).alias('weights')).show(truncate=False, n=numTopics)
+    topics.select(ListOfIndexToWords(topics.termIndices).alias('words')).show(truncate=False, n=num_topics)
+    topics.select(FormatNumbers(topics.termWeights).alias('weights')).show(truncate=False, n=num_topics)
     print("Perplexity on testing and training data: " + str(lp) + ',' + str(lpt))
-    sc.close()
-run()
+
