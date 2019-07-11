@@ -28,8 +28,6 @@ from json import dumps
 from kafka import KafkaProducer
 import tweepy
 import keys
-from keys import tweepyOauth
-from keys import tweepyToken
 from urllib3.exceptions import ProtocolError
 
 producer = None
@@ -138,8 +136,8 @@ if __name__ == '__main__':
                              (msg.topic(), msg.partition(), msg.offset()))
 
     myStreamListener = MyStreamListener()
-    auth = tweepy.OAuthHandler(tweepyOauth[0],tweepyOauth[1])
-    auth.set_access_token(tweepyToken[0],tweepyToken[1])
+    auth = tweepy.OAuthHandler(keys.tweepyOauth[0],keys.tweepyOauth[1])
+    auth.set_access_token(keys.tweepyToken[0],keys.tweepyToken[1])
 
     api = tweepy.API(auth)
     myStream = tweepy.Stream(auth=api.auth, listener=myStreamListener)
