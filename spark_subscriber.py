@@ -22,7 +22,6 @@ if __name__ == "__main__":
 
     lines = kafkaStream.map(lambda x: x[1])
     counts = lines.flatMap(lambda line: line.split(" ")).map(lambda word: (word, 1)).reduceByKey(lambda a, b: a+b)
-    #print(type(counts))
     counts.pprint()
 
 

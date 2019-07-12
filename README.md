@@ -56,3 +56,9 @@ Please modify `Line 3` in file `spark_subscriber.py` with the *path* that you sp
 ```console
 me@linux:~$ python spark_subscriber.py
 ```
+# Demo
+![Alt Text](https://media.giphy.com/media/TKGUO1cI6wY2SQbnEs/giphy.gif)
+
+![Alt Text](https://media.giphy.com/media/jrcsdjXiHczPcFmiOZ/giphy.gif)
+
+[LDA visualization created](https://htmlpreview.github.io/?https://github.com/nakaosensei/TwitterSpark/blob/master/files/viz/lda.html)

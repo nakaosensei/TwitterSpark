@@ -28,9 +28,7 @@ from pyspark.sql.functions import udf, col, size, explode, regexp_replace, trim,
 from pyspark.sql.types import ArrayType, StringType, DoubleType, IntegerType, LongType
 from pyspark.ml.clustering import LDA
 import pyLDAvis
-
-
-
+import string
 
 
 
@@ -68,26 +66,26 @@ def filter_bad_docs(data):
     data['doc_topic_dists'] = doc_topic_dists_filtrado
     data['doc_lengths'] = doc_lengths_filtrado
 
-def update_lda(lang = "english"):    
-    personal_stops = ["http","www","html","https","id","bolsonaro","none","yahoo","reuters","brazil","name","news","thestar"]
 
 
-    stopWords = stopwords.words(lang)
-    stopWords.extend(personal_stops)
-
+def update_lda(lang = "portuguese"):    
     file_location = "files/news/news_{}.csv".format(lang)
-
     sc = SparkContext(appName="PythonStreamingReceiver")
     sqlc = SQLContext(sc)
 
+    
     df = sqlc.read.csv(file_location, header=True)
 
     news = df.rdd.map(lambda x: x['title']).filter(lambda x: x is not None)
     headlines = news.zipWithIndex()
     data = sqlc.createDataFrame(headlines,["headlines",'index'])
 
+    personal_stops = ["http","www","html","https","id","bolsonaro","none","yahoo","reuters","brazil","name","news"]
+    stopWords = stopwords.words(lang)
+    stopWords.extend(personal_stops)
+
     removePunct = udf(
-        lambda s: re.sub(r'[^a-zA-Z0-9]|[0-9]', r' ', s).strip().lower(), T.StringType())
+        lambda s: re.sub(r'[^A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]|[0-9]', r' ', s).strip().lower(), T.StringType())
 
     data_norm = data.withColumn("text", removePunct(data.headlines))
     tokenizer = RegexTokenizer(inputCol="text", outputCol="words",
@@ -116,21 +114,21 @@ def update_lda(lang = "english"):
     ldaModel = lda.fit(result_tfidf)
     transformed = ldaModel.transform(result_tfidf)
     lpt, lp = ldaModel.logPerplexity(df_testing), ldaModel.logPerplexity(df_training)
+    
     num_topics = int(lpt+1)
-
-    num_terms = 8
+    num_terms = 15
+    
     # FORMAT DATA AND PASS IT TO PYLDAVIS
     data = format_data_to_pyldavis(df_tokens, cvmodel, transformed, ldaModel, num_terms)
-    filter_bad_docs(data) # this is, because for some reason some docs apears with 0 value in all the vectors, or the norm is not 1, so I filter those docs.
+    filter_bad_docs(data)
     py_lda_prepared_data = pyLDAvis.prepare(**data)
     pyLDAvis.save_html(py_lda_prepared_data, 'files/viz/lda.html')
 
 
 
-    # Print topics and top-weighted terms
+    #Topics and top-weighted terms
     topics = ldaModel.describeTopics(maxTermsPerTopic = num_terms)
     vocabArray = cvmodel.vocabulary
-    
 
     ListOfIndexToWords = udf(lambda wl: list([vocabArray[w] for w in wl]))
     FormatNumbers = udf(lambda nl: ["{:1.4f}".format(x) for x in nl])
